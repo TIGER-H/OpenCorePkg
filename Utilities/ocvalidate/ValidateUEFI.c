@@ -325,6 +325,7 @@ CheckUEFIInput (
   OC_UEFI_CONFIG  *UserUefi;
   BOOLEAN         IsPointerSupportEnabled;
   CONST CHAR8     *PointerSupportMode;
+  CONST CHAR8     *DownkeyHandler;
   CONST CHAR8     *KeySupportMode;
 
   ErrorCount      = 0;
@@ -334,6 +335,14 @@ CheckUEFIInput (
   PointerSupportMode      = OC_BLOB_GET (&UserUefi->Input.PointerSupportMode);
   if (IsPointerSupportEnabled && AsciiStrCmp (PointerSupportMode, "ASUS") != 0) {
     DEBUG ((DEBUG_WARN, "UEFI->Input->PointerSupport is enabled, but PointerSupportMode is not ASUS!\n"));
+    ++ErrorCount;
+  }
+
+  DownkeyHandler = OC_BLOB_GET (&UserUefi->Input.DownkeyHandler);
+  if (AsciiStrCmp (DownkeyHandler, "Auto") != 0
+    && AsciiStrCmp (DownkeyHandler, "Enabled") != 0
+    && AsciiStrCmp (DownkeyHandler, "Disabled") != 0) {
+    DEBUG ((DEBUG_WARN, "UEFI->Input->DownkeyHandler is illegal (Can only be Auto, Enabled, Disabled)!\n"));
     ++ErrorCount;
   }
 

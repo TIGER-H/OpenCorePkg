@@ -546,7 +546,8 @@ INTN
 (EFIAPI *OC_GET_KEY_INDEX) (
   IN OUT OC_PICKER_CONTEXT                  *Context,
   IN     APPLE_KEY_MAP_AGGREGATOR_PROTOCOL  *KeyMap,
-     OUT BOOLEAN                            *SetDefault  OPTIONAL
+     OUT BOOLEAN                            *WantsDefault   OPTIONAL,
+     OUT BOOLEAN                            *AllowsToggle    OPTIONAL
   );
 
 
@@ -1054,9 +1055,11 @@ OcLoadPickerHotKeys (
 /**
   Obtains key index from user input.
 
-  @param[in,out]  Context      Picker context.
-  @param[in]      KeyMap       Apple Key Map Aggregator protocol.
-  @param[out]     SetDefault   Set boot option as default, optional.
+  @param[in,out]  Context       Picker context.
+  @param[in]      KeyMap        Apple Key Map Aggregator protocol.
+  @param[out]     WantsDefault  Pass back whether to set selected boot option as default, optional.
+                                When not present, key combinations attempting to set default boot option will not detect.
+  @param[out]     AllowsToggle  Pass back whether safe to use toggle behaviour on detected key stroke, optional.
 
   @returns key index [0, OC_INPUT_MAX) or OC_INPUT_* value.
   @returns OC_INPUT_TIMEOUT when no key is pressed.
@@ -1067,16 +1070,25 @@ EFIAPI
 OcGetAppleKeyIndex (
   IN OUT OC_PICKER_CONTEXT                  *Context,
   IN     APPLE_KEY_MAP_AGGREGATOR_PROTOCOL  *KeyMap,
-     OUT BOOLEAN                            *SetDefault  OPTIONAL
+     OUT BOOLEAN                            *WantsDefault   OPTIONAL,
+     OUT BOOLEAN                            *AllowsToggle    OPTIONAL
   );
+
+/**
+  Initialise held keys buffer. Call before looped calls to OcWaitForAppleKeyIndex.
+**/
+VOID
+OcInitDownkeys ();
 
 /**
   Waits for key index from user input.
 
-  @param[in,out]  Context      Picker context.
-  @param[in]      KeyMap       Apple Key Map Aggregator protocol.
-  @param[in]      Timeout      Timeout to wait for in milliseconds.
-  @param[out]     SetDefault   Set boot option as default, optional.
+  @param[in,out]  Context       Picker context.
+  @param[in]      KeyMap        Apple Key Map Aggregator protocol.
+  @param[in]      Timeout       Timeout to wait for in milliseconds.
+  @param[out]     WantsDefault  Pass back whether to set selected boot option as default, optional.
+                                When not present, key combinations attempting to set default boot option will not detect.
+  @param[out]     AllowsToggle  Pass back whether safe to use toggle behaviour on detected key stroke, optional.
 
   @returns key index [0, OC_INPUT_MAX) or OC_INPUT_* value.
 **/
@@ -1085,7 +1097,8 @@ OcWaitForAppleKeyIndex (
   IN OUT OC_PICKER_CONTEXT                  *Context,
   IN     APPLE_KEY_MAP_AGGREGATOR_PROTOCOL  *KeyMap,
   IN     UINTN                              Timeout,
-     OUT BOOLEAN                            *SetDefault  OPTIONAL
+     OUT BOOLEAN                            *WantsDefault   OPTIONAL,
+     OUT BOOLEAN                            *AllowsToggle   OPTIONAL
   );
 
 /**

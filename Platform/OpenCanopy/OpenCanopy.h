@@ -62,7 +62,8 @@ VOID
   IN     INT64                   BaseX,
   IN     INT64                   BaseY,
   IN     INTN                    Key,
-  IN     BOOLEAN                 Modifier
+  IN     BOOLEAN                 WantsDefault,
+  IN     BOOLEAN                 AllowsToggle
   );
 
 typedef

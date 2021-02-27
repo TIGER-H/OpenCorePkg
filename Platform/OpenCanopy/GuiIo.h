@@ -93,7 +93,8 @@ EFIAPI
 GuiKeyRead (
   IN OUT GUI_KEY_CONTEXT  *Context,
   OUT    INTN             *KeyIndex,
-  OUT    BOOLEAN          *Modifier
+  OUT    BOOLEAN          *WantsDefault,
+  OUT    BOOLEAN          *AllowsToggle
   );
 
 VOID

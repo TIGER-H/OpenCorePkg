@@ -1040,7 +1040,8 @@ GuiDrawLoop (
   BOOLEAN             Result;
 
   INTN                InputKey;
-  BOOLEAN             Modifier;
+  BOOLEAN             WantsDefault;
+  BOOLEAN             AllowsToggle;
   GUI_POINTER_STATE   PointerState;
   GUI_OBJ             *HoldObject;
   INT64               HoldObjBaseX;
@@ -1119,7 +1120,7 @@ GuiDrawLoop (
       //
       // Process key events. Only allow one key at a time for now.
       //
-      Status = GuiKeyRead (mKeyContext, &InputKey, &Modifier);
+      Status = GuiKeyRead (mKeyContext, &InputKey, &WantsDefault, &AllowsToggle);
       if (!EFI_ERROR (Status)) {
         ASSERT (DrawContext->Screen->KeyEvent != NULL);
         DrawContext->Screen->KeyEvent (
@@ -1129,7 +1130,8 @@ GuiDrawLoop (
                                0,
                                0,
                                InputKey,
-                               Modifier
+                               WantsDefault,
+                               AllowsToggle
                                );
         //
         // If detected key press then disable menu timeout

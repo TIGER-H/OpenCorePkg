@@ -211,7 +211,8 @@ InternalBootPickerViewKeyEvent (
   IN     INT64                   BaseX,
   IN     INT64                   BaseY,
   IN     INTN                    Key,
-  IN     BOOLEAN                 Modifier
+  IN     BOOLEAN                 WantsDefault,
+  IN     BOOLEAN                 AllowsToggle
   )
 {
   ASSERT (This != NULL);
@@ -229,7 +230,8 @@ InternalBootPickerViewKeyEvent (
                         BaseX + mBootPickerContainer.Obj.OffsetX + mBootPicker.Hdr.Obj.OffsetX,
                         BaseY + mBootPickerContainer.Obj.OffsetY + mBootPicker.Hdr.Obj.OffsetY,
                         Key,
-                        Modifier
+                        WantsDefault,
+                        AllowsToggle
                         );
 }
 
@@ -422,7 +424,8 @@ InternalBootPickerKeyEvent (
   IN     INT64                   BaseX,
   IN     INT64                   BaseY,
   IN     INTN                    Key,
-  IN     BOOLEAN                 Modifier
+  IN     BOOLEAN                 WantsDefault,
+  IN     BOOLEAN                 AllowsToggle
   )
 {
   GUI_VOLUME_PICKER       *Picker;
@@ -467,7 +470,7 @@ InternalBootPickerKeyEvent (
     }
   } else if (Key == OC_INPUT_CONTINUE) {
     ASSERT (Picker->SelectedEntry != NULL);
-    Picker->SelectedEntry->Context->SetDefault = Modifier;
+    Picker->SelectedEntry->Context->SetDefault = WantsDefault;
     GuiContext->ReadyToBoot = TRUE;
     ASSERT (GuiContext->BootEntry == Picker->SelectedEntry->Context);
   } else if (mBootPickerOpacity != 0xFF) {
@@ -478,8 +481,12 @@ InternalBootPickerKeyEvent (
   }
 
   if (Key == OC_INPUT_MORE) {
-    GuiContext->HideAuxiliary = FALSE;
+    GuiContext->HideAuxiliary = AllowsToggle ? !GuiContext->HideAuxiliary : FALSE;
     GuiContext->Refresh = TRUE;
+
+    //
+    // TO DO: To apply toggle in live, hide auxiliary audio media would be required
+    //
     DrawContext->GuiContext->PickerContext->PlayAudioFile (
       DrawContext->GuiContext->PickerContext,
       OcVoiceOverAudioFileShowAuxiliary,

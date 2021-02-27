@@ -598,6 +598,7 @@ typedef enum {
 /// Input is a set of options to support advanced input.
 ///
 #define OC_UEFI_INPUT_FIELDS(_, __) \
+  _(OC_STRING                   , DownkeyHandler     ,     , OC_STRING_CONSTR ("Auto", _, __)  , OC_DESTR (OC_STRING)) \
   _(OC_STRING                   , KeySupportMode     ,     , OC_STRING_CONSTR ("Auto", _, __)  , OC_DESTR (OC_STRING)) \
   _(OC_STRING                   , PointerSupportMode ,     , OC_STRING_CONSTR ("", _, __)      , OC_DESTR (OC_STRING)) \
   _(UINT32                      , TimerResolution    ,     , 0                                 , ()) \
