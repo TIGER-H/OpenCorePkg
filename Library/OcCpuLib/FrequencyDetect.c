@@ -118,6 +118,17 @@ InternalGetPmTimerAddr (
 }
 
 UINT64
+InternalCalculateTSCFromApplePlatformInfo (
+  OUT *FSBFrequency OPTIONAL
+)
+{
+  //
+  // TODO
+  //
+  return 0;
+}
+
+UINT64
 InternalCalculateTSCFromPMTimer (
   IN BOOLEAN  Recalculate
   )
