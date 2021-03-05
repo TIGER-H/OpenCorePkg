@@ -334,9 +334,8 @@ ScanIntelFSBFrequency (
     ));
 }
 
-STATIC
 UINT64
-InternalConvertFSBToTSCFrequency (
+InternalConvertAppleFSBToTSCFrequency (
   IN  UINT64        FSBFrequency
   )
 {

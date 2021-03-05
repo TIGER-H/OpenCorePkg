@@ -130,6 +130,18 @@ InternalCalculateTSCFromPMTimer (
   );
 
 /**
+  Calculate the TSC frequency based on FSB frequency
+
+  @param[in]  FSBFrequency  Value of FSB frequency
+
+  @retval The calculated TSC frequency.
+**/
+UINT64
+InternalConvertAppleFSBToTSCFrequency (
+  IN  UINT64        FSBFrequency
+  );
+
+/**
   Calculate the ART frequency and derieve the CPU frequency for Intel CPUs
 
   @param[out] CPUFrequency  The derieved CPU frequency.
